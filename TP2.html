@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+	<title>Domotique</title>
+</head>
+<style>
+.green{background-color : #42ba96 }
+.red{background-color: lightcoral}
+</style>
+<body>
+	<div id='buttons' class="container">
+		<div class="row justify-content-center">
+			<div class="col-xs-5" c>
+
+                <h2>Appareils</h2>
+                <ul class="list-group">
+                    <thead><th>Appareil</th>
+                    <th>Status</th>
+                    </thead>
+                    <tbody>
+                    <li v-for="item in tab">
+                        <div  v-bind:class="[getStatus(item.status) ? 'green' : 'red']">
+                            <td> {{ item.name }} </td>
+                            <td><button v-on:click="item.status ='on'" class="btn btn-success"> ON</button></td>
+                            <td><button v-on:click="item.status ='off'" class="btn btn-danger"> OFF</button></td>
+                          
+                        </div>
+                    </li>
+                </tbody>
+			    </ul>
+			<br>
+			<button v-on:click="allGreen(tab)" class="btn btn-success">All ON</button>
+			<button v-on:click="allRed(tab)" class="btn btn-danger">All OFF</button>
+            <input v-model="newApp">
+            <button v-on:click='addInTab()'>Ajouter</button>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+<script>
+    const app = new Vue({
+
+        el:'#buttons',
+        data:{tab : [{ name:'TV',status:'on'},
+                     { name:'Xbox',status:'off'},
+                     { name:'PlayStation',status:'on'},],
+              newApp :'', 
+              },
+        
+        methods:{
+            getStatus(status){
+                if (status =='on') 
+                return true; },
+            allGreen(tab){
+               for( item of tab){
+                   item['status']='on';
+               }
+            },
+            allRed(tab){
+                for( item of tab){
+                    item['status']='off';
+                }  
+            },
+            addInTab(){
+                
+                this.tab.push({name : this.newApp, status: 'on'})
+            }, 
+    },
+}
+    )
+</script>
+</body>
+</html>
